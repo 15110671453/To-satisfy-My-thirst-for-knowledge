@@ -1,0 +1,21 @@
+交叉编译 细数我接触过的编译器  
+
+因为 项目需求 以后可能要接触频繁的交叉编译
+
+细数我接触过的编译器
+
+首先 mac  ios 开发一族的 Xcodebuild
+
+
+然后 在与ffmpeg opencv 等 混编 接触的编译工具 （他们的源码中 都有makefile文件 帮助编译） cmake
+
+
+
+后来 在linux centos 中 安装一些程序源码包 编译时 发现 它们 包中有pkg-config文件  该文件表明可以使用 pkg-config 方便编译安装
+
+
+
+后来 研究 java android 开发使用 grade  
+
+
+再后来 使用 java 编写 servlet 使用  编译器 maven （而在java族 中 我们发现eclipse 最早使用的是ant 编译项目）
