@@ -1,0 +1,219 @@
+Shell 脚本 回顾 
+
+
+第一  定义 与 使用变量
+
+使用一个定义过的变量，只要在变量名前面加美元符号即可，如：
+
+your_name="qinjx"
+echo $your_name
+echo ${your_name}
+
+变量名外面的花括号是可选的，加不加都行，加花括号是为了帮助解释器识别变量的边界，比如下面这种情况：
+
+for skill in Ada Coffe Action Java; do
+    echo "I am good at ${skill}Script"
+done
+
+
+获取字符串长度
+string="abcd"
+echo ${#string} #输出 4
+提取子字符串
+以下实例从字符串第 2 个字符开始截取 4 个字符：
+string="runoob is a great site"
+echo ${string:1:4} # 输出 unoo
+
+
+第二
+
+Shell 传递参数
+我们可以在执行 Shell 脚本时，向脚本传递参数，脚本内获取参数的格式为：$n。n 代表一个数字，1 为执行脚本的第一个参数，2 为执行脚本的第二个参数，以此类推……
+
+#!/bin/bash
+# url:www.runoob.com
+
+echo "Shell 传递参数实例！";
+echo "执行的文件名：$0";
+echo "第一个参数为：$1";
+echo "第二个参数为：$2";
+echo "第三个参数为：$3";
+
+$ chmod +x test.sh 
+$ ./test.sh 1 2 3
+Shell 传递参数实例！
+执行的文件名：./test.sh
+第一个参数为：1
+第二个参数为：2
+第三个参数为：3
+
+
+
+$?	显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误。
+
+
+
+第三 
+
+原生bash不支持简单的数学运算，但是可以通过其他命令来实现，例如 awk 和 expr，expr 最常用。
+expr 是一款表达式计算工具，使用它能完成表达式的求值操作。
+例如，两个数相加(注意使用的是反引号 ` 而不是单引号 ')：
+#!/bin/bash
+
+val=`expr 2 + 2`
+echo "两数之和为 : $val"
+
+
+
+
+第四  关系运算符
+关系运算符只支持数字，不支持字符串，除非字符串的值是数字。
+下表列出了常用的关系运算符，假定变量 a 为 10，变量 b 为 20：
+
+-eq	检测两个数是否相等，相等返回 true。	[ $a -eq $b ] 返回 false。
+-ne	检测两个数是否相等，不相等返回 true。	[ $a -ne $b ] 返回 true。
+-gt	检测左边的数是否大于右边的，如果是，则返回 true。	[ $a -gt $b ] 返回 false。
+-lt	检测左边的数是否小于右边的，如果是，则返回 true。	[ $a -lt $b ] 返回 true。
+-ge	检测左边的数是否大于等于右边的，如果是，则返回 true。	[ $a -ge $b ] 返回 false。
+-le	检测左边的数是否小于等于右边的，如果是，则返回 true。	[ $a -le $b ] 返回 true。
+
+
+
+
+字符串运算符
+下表列出了常用的字符串运算符，假定变量 a 为 "abc"，变量 b 为 "efg"：
+运算符	说明	举例
+=	检测两个字符串是否相等，相等返回 true。	[ $a = $b ] 返回 false。
+!=	检测两个字符串是否相等，不相等返回 true。	[ $a != $b ] 返回 true。
+-z	检测字符串长度是否为0，为0返回 true。	[ -z $a ] 返回 false。
+-n	检测字符串长度是否为0，不为0返回 true。	[ -n $a ] 返回 true。
+str	检测字符串是否为空，不为空返回 true。	[ $a ] 返回 true。
+
+
+
+第五
+
+变量 file 表示文件"/var/www/runoob/test.sh"，它的大小为100字节，具有 rwx 权限。下面的代码，将检测该文件的各种属性：
+
+#!/bin/bash
+# url:www.runoob.com
+
+file="/var/www/runoob/test.sh"
+if [ -r $file ]
+then
+   echo "文件可读"
+else
+   echo "文件不可读"
+fi
+if [ -w $file ]
+then
+   echo "文件可写"
+else
+   echo "文件不可写"
+fi
+if [ -x $file ]
+then
+   echo "文件可执行"
+else
+   echo "文件不可执行"
+fi
+if [ -f $file ]
+then
+   echo "文件为普通文件"
+else
+   echo "文件为特殊文件"
+fi
+if [ -d $file ]
+then
+   echo "文件是个目录"
+else
+   echo "文件不是个目录"
+fi
+if [ -s $file ]
+then
+   echo "文件不为空"
+else
+   echo "文件为空"
+fi
+if [ -e $file ]
+then
+   echo "文件存在"
+else
+   echo "文件不存在"
+fi
+
+
+第六  read 命令交互
+
+
+read 命令从标准输入中读取一行,并把输入行的每个字段的值指定给 shell 变量
+#!/bin/sh
+read name 
+echo "$name It is a test"
+
+以上代码保存为 test.sh，name 接收标准输入的变量，结果将是:
+[root@www ~]# sh test.sh
+OK                     #标准输入
+OK It is a test        #输出
+
+
+
+
+第七 控制流
+
+
+代码中的 [] 执行基本的算数运算，如：
+#!/bin/bash
+
+a=5
+b=6
+
+result=$[a+b] # 注意等号两边不能有空格
+echo "result 为： $result"
+结果为:
+result 为： 11
+
+
+第八 while 使用
+
+
+echo '按下 <CTRL-D> 退出'
+echo -n '输入你最喜欢的网站名: '
+while read FILM
+do
+    echo "是的！$FILM 是一个好网站"
+done
+
+
+
+第九 Shell 输入/输出重定向
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
